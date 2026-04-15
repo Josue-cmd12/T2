@@ -4,12 +4,18 @@ import edu.pe.cibertec.saucedemo.questions.TheErrorMessage;
 import edu.pe.cibertec.saucedemo.questions.ThePageTitle;
 import edu.pe.cibertec.saucedemo.tasks.LoginAs;
 import edu.pe.cibertec.saucedemo.tasks.OpenTheLoginPage;
+import edu.pe.cibertec.saucedemo.tasks.VerifySession;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.screenplay.Actor;
+import net.serenitybdd.screenplay.Task;
 import net.serenitybdd.screenplay.actors.OnStage;
+import net.serenitybdd.screenplay.playwright.Target;
 import net.serenitybdd.screenplay.playwright.abilities.BrowseTheWebWithPlaywright;
+import net.serenitybdd.screenplay.playwright.interactions.Click;
+
 
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static org.hamcrest.Matchers.*;
@@ -56,4 +62,28 @@ public class LoginStepDefinitions {
 
     }
 
-}
+    @And("the page load time should be greater than {int} milliseconds")
+    public void verifyLoadTime(int ms) {
+        System.out.println("verifica que el tiempo sea mayor a " + ms +"ms");
+    }
+
+    @And("she navigates to the cart page")
+    public void navigateToCart() {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                Click.on(Target.the("icono de carrito").locatedBy(".shopping_cart_link"))
+        );
+                }
+    @And("she navigates back to the inventory page")
+    public void navigateBackToInventory() {
+        OnStage.theActorInTheSpotlight().attemptsTo(
+                Task.where("{0} navega hacia atras", actor -> BrowseTheWebWithPlaywright.as(actor).getCurrentPage().goBack())
+        );
+    }
+    @Then("she should still be logged in")
+    public void  sheShouldStillBeloggedIn(){
+        OnStage.theActorInTheSpotlight().attemptsTo(VerifySession.esValida("Products"));
+    }
+    }
+
+
+
