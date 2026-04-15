@@ -22,20 +22,20 @@ public class CarritoStepDefinitions {
                 AddToCart.elProducto(productName)
         );
     }
-    @Then("The cart icon should display {string}")
+    @Then("the cart icon should display {string}")
     public void theCartIconShouldDisplay(String expectedCount) {
         OnStage.theActorInTheSpotlight().should(
                 seeThat(TheCart.badgeCount(), equalTo(expectedCount))
         );
     }
-    @And("the cart shouldContain{string} and {string}")
+    @And("the cart should contain {string} and {string}")
     public void theCartShouldContain(String item1,String item2){
         OnStage.theActorInTheSpotlight().attemptsTo(Click.on(Target.the("icono carrito").locatedBy(CarritoPage.ICONO_CARRITO))
         );
         OnStage.theActorInTheSpotlight().should(seeThat(TheCart.contents(), hasItems(item1, item2))
         );
     }
-    @And("She removes the product {string} from the cart")
+    @And("she removes the product {string} from the cart")
     public void sheRemovesTheProduct(String productName) {
         OnStage.theActorInTheSpotlight().attemptsTo(
                 RemovefromCart.elProducto(productName)
